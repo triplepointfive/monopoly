@@ -1,14 +1,18 @@
 <template lang='slm'>
   td.corner :class='image'
     | {{ text }}
-    span.player v-for='player in playersIds' :class='"id" + player'
+    Player v-for='playerId in playersIds' :id='playerId' :key='playerId'
 </template>
 
 <script>
+import Player from './Player'
 
 export default {
   name: 'Cell',
   props: ['i', 'j', 'players', 'image', 'text'],
+  components: {
+    Player
+  },
   computed: {
     playersIds() {
       let ids = []
@@ -26,66 +30,45 @@ export default {
 </script>
 
 <style lang="scss">
-td {
-  border: 1px solid black;
-  width: 50px;
-  height: 50px;
+.desk {
+  td {
+    border: 1px solid black;
+    width: 50px;
+    height: 50px;
 
-  &.corner {
-    background-position: center center;
-    background-size: 100% 100%;
-  }
+    &.corner {
+      background-position: center center;
+      background-size: 100% 100%;
+    }
 
-  &.parking {
-    background-image: url(/parking.png);
-  }
+    &.parking {
+      background-image: url(/parking.png);
+    }
 
-  &.police {
-    background-image: url(/police.svg);
-  }
+    &.police {
+      background-image: url(/police.svg);
+    }
 
-  &.jail {
-    background-image: url(/jail.png);
-  }
+    &.jail {
+      background-image: url(/jail.png);
+    }
 
-  &.salary {
-    background-image: url(/salary.png);
-  }
+    &.salary {
+      background-image: url(/salary.png);
+    }
 
-  &.diamond {
-    background-image: url(/diamond.jpg);
-  }
+    &.diamond {
+      background-image: url(/diamond.jpg);
+    }
 
-  &.chance {
-    background-image: url(/chance.png);
-  }
+    &.chance {
+      background-image: url(/chance.png);
+    }
 
-  img {
-    max-width: 100%;
-    max-height: 100%;
-  }
-}
-
-.player {
-  width: 20px;
-  height: 20px;
-  border-radius: 10px;
-  display: inline-block;
-
-  &.id0 {
-    background-color: red;
-  }
-
-  &.id1 {
-    background-color: green;
-  }
-
-  &.id2 {
-    background-color: blue;
-  }
-
-  &.id3 {
-    background-color: purple;
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
   }
 }
 </style>

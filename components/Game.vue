@@ -1,30 +1,48 @@
 <template lang="slm">
   div
-    table
-      tr v-for='(row, i) in cells'
-        template v-for='(cell, j) in row'
-          DeskCell[
-            v-if='cell'
-            :i='i'
-            :j='j'
-            :players='players'
-            :image='cell.image'
-            :text='cell.text'
-          ]
-          td[
-            rowspan=7
-            colspan=7
-            v-else-if='i == 1 && j == 1'
-          ]
-    h1
-      Dice> v-for='(dice, i) in dices' :value='dice' :key="i"
-      button @click="roll"
-        | Role
+    div style='float: left;'
+      table.desk
+        tr v-for='(row, i) in cells'
+          template v-for='(cell, j) in row'
+            DeskCell[
+              v-if='cell'
+              :i='i'
+              :j='j'
+              :players='players'
+              :image='cell.image'
+              :text='cell.text'
+              ]
+            td[
+              rowspan=7
+              colspan=7
+              v-else-if='i == 1 && j == 1'
+              ]
+      h1
+        Dice> v-for='(dice, i) in dices' :value='dice' :key="i"
+        button @click="roll"
+          | Role
+    div
+      table
+        tr v-for='(player, i) in players' :key='i'
+          td
+            span[
+              v-show='player == currentPlayer'
+              ]
+              | ➡
+          td
+            DeskPlayer :id='i'
+          td
+            span v-for='n in player.level * 2 - 1'
+              | ★
+          td
+            | {{ player.money }}K$
+
 </template>
 
 <script>
 import Dice from './Dice'
 import DeskCell from './Cell'
+import DeskPlayer from './Player'
 
 const randomInteger = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min))
@@ -62,6 +80,8 @@ class Player {
   constructor() {
     this.i = 8
     this.j = 8
+    this.money = 372
+    this.level = 1
   }
 }
 
@@ -123,7 +143,8 @@ export default {
   },
   components: {
     DeskCell,
-    Dice
+    Dice,
+    DeskPlayer
   },
   methods: {
     roll() {
@@ -134,20 +155,20 @@ export default {
       let steps = this.dices.reduce((acc, val) => acc + val)
 
       const stepIterval = setInterval(() => {
-        const cell = this.cells[this.player.i][this.player.j]
+        const cell = this.cells[this.currentPlayer.i][this.currentPlayer.j]
 
         switch (cell.moveDir) {
           case 'up':
-            this.player.i -= 1
+            this.currentPlayer.i -= 1
             break
           case 'down':
-            this.player.i += 1
+            this.currentPlayer.i += 1
             break
           case 'right':
-            this.player.j += 1
+            this.currentPlayer.j += 1
             break
           case 'left':
-            this.player.j -= 1
+            this.currentPlayer.j -= 1
             break
           default:
             throw(`Unknown moveDir ${cell.moveDir}`)
@@ -170,7 +191,7 @@ export default {
     }
   },
   computed: {
-    player() {
+    currentPlayer() {
       return this.players[this.turn % this.players.length]
     }
   }
