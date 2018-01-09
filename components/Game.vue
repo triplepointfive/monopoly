@@ -9,6 +9,7 @@
             :j='j'
             :players='players'
             :image='cell.image'
+            :text='cell.text'
           ]
           td[
             rowspan=7
@@ -38,6 +39,13 @@ class Cell {
   }
 }
 
+class BuildingCell extends Cell {
+  constructor(moveDir) {
+    super(moveDir, null)
+    this.text = 'home'
+  }
+}
+
 class Player {
   constructor() {
     this.i = 8
@@ -56,9 +64,40 @@ for (let i = 0; i < 9; i++) {
 }
 
 cells[0][0] = parkingCell
+cells[0][1] = new BuildingCell('right')
+cells[0][2] = new BuildingCell('right')
+cells[0][3] = new BuildingCell('right')
+cells[0][4] = new BuildingCell('right')
+cells[0][5] = new BuildingCell('right')
+cells[0][6] = new BuildingCell('right')
+cells[0][7] = new BuildingCell('right')
+
 cells[0][8] = policeCell
-cells[8][0] = jailCell
+cells[1][8] = new BuildingCell('down')
+cells[2][8] = new BuildingCell('down')
+cells[3][8] = new BuildingCell('down')
+cells[4][8] = new BuildingCell('down')
+cells[5][8] = new BuildingCell('down')
+cells[6][8] = new BuildingCell('down')
+cells[7][8] = new BuildingCell('down')
+
 cells[8][8] = salaryCell
+cells[8][7] = new BuildingCell('left')
+cells[8][6] = new BuildingCell('left')
+cells[8][5] = new BuildingCell('left')
+cells[8][4] = new BuildingCell('left')
+cells[8][3] = new BuildingCell('left')
+cells[8][2] = new BuildingCell('left')
+cells[8][1] = new BuildingCell('left')
+
+cells[8][0] = jailCell
+cells[7][0] = new BuildingCell('up')
+cells[6][0] = new BuildingCell('up')
+cells[5][0] = new BuildingCell('up')
+cells[4][0] = new BuildingCell('up')
+cells[3][0] = new BuildingCell('up')
+cells[2][0] = new BuildingCell('up')
+cells[1][0] = new BuildingCell('up')
 
 export default {
   name: 'Game',
@@ -76,6 +115,42 @@ export default {
   methods: {
     roll() {
       this.dices = [randDice(), randDice()]
+      this.movePlayer();
+    },
+    movePlayer() {
+      let steps = this.dices.reduce((acc, val) => acc + val)
+
+      const stepIterval = setInterval(() => {
+        const cell = this.cells[this.player.i][this.player.j]
+
+        switch (cell.moveDir) {
+          case 'up':
+            this.player.i -= 1
+            break
+          case 'down':
+            this.player.i += 1
+            break
+          case 'right':
+            this.player.j += 1
+            break
+          case 'left':
+            this.player.j -= 1
+            break
+          default:
+            throw(`Unknown moveDir ${cell.moveDir}`)
+        }
+
+        steps -= 1
+
+        if (steps <= 0) {
+          clearInterval(stepIterval)
+        }
+      }, 100)
+    }
+  },
+  computed: {
+    player() {
+      return this.players[0]
     }
   }
 }

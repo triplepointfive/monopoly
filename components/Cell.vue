@@ -1,13 +1,14 @@
 <template lang='slm'>
   td.corner :class='image'
     span.player v-for='player in playersIds' :class='"id" + player'
+    | {{ text }}
 </template>
 
 <script>
 
 export default {
   name: 'Cell',
-  props: ['i', 'j', 'players', 'image'],
+  props: ['i', 'j', 'players', 'image', 'text'],
   computed: {
     playersIds() {
       let ids = []
