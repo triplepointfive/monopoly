@@ -30,7 +30,7 @@ const randomInteger = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min))
 }
 
-const randDice = function() { return randomInteger(1, 6) }
+const randDice = function() { return randomInteger(1, 5) }
 
 class Cell {
   constructor(moveDir, image) {
@@ -117,6 +117,7 @@ export default {
     return {
       dices: [randDice(), randDice()],
       cells: cells,
+      turn: 0,
       players: [new Player(), new Player(), new Player(), new Player()]
     }
   },
@@ -156,13 +157,21 @@ export default {
 
         if (steps <= 0) {
           clearInterval(stepIterval)
+
+          const [d1, d2] = this.dices
+
+          if (d1 !== d2) {
+            // TODO: If dices are same for the third time go to jail
+            this.turn += 1
+          }
         }
+
       }, 100)
     }
   },
   computed: {
     player() {
-      return this.players[0]
+      return this.players[this.turn % this.players.length]
     }
   }
 }
