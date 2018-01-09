@@ -46,6 +46,18 @@ class BuildingCell extends Cell {
   }
 }
 
+class DiamondCell extends Cell {
+  constructor(moveDir) {
+    super(moveDir, 'diamond')
+  }
+}
+
+class ChanceCell extends Cell {
+  constructor(moveDir) {
+    super(moveDir, 'chance')
+  }
+}
+
 class Player {
   constructor() {
     this.i = 8
@@ -65,7 +77,7 @@ for (let i = 0; i < 9; i++) {
 
 cells[0][0] = parkingCell
 cells[0][1] = new BuildingCell('right')
-cells[0][2] = new BuildingCell('right')
+cells[0][2] = new ChanceCell('right')
 cells[0][3] = new BuildingCell('right')
 cells[0][4] = new BuildingCell('right')
 cells[0][5] = new BuildingCell('right')
@@ -75,18 +87,18 @@ cells[0][7] = new BuildingCell('right')
 cells[0][8] = policeCell
 cells[1][8] = new BuildingCell('down')
 cells[2][8] = new BuildingCell('down')
-cells[3][8] = new BuildingCell('down')
+cells[3][8] = new DiamondCell('down')
 cells[4][8] = new BuildingCell('down')
-cells[5][8] = new BuildingCell('down')
+cells[5][8] = new ChanceCell('down')
 cells[6][8] = new BuildingCell('down')
 cells[7][8] = new BuildingCell('down')
 
 cells[8][8] = salaryCell
 cells[8][7] = new BuildingCell('left')
-cells[8][6] = new BuildingCell('left')
+cells[8][6] = new DiamondCell('left')
 cells[8][5] = new BuildingCell('left')
 cells[8][4] = new BuildingCell('left')
-cells[8][3] = new BuildingCell('left')
+cells[8][3] = new ChanceCell('left')
 cells[8][2] = new BuildingCell('left')
 cells[8][1] = new BuildingCell('left')
 
@@ -95,7 +107,7 @@ cells[7][0] = new BuildingCell('up')
 cells[6][0] = new BuildingCell('up')
 cells[5][0] = new BuildingCell('up')
 cells[4][0] = new BuildingCell('up')
-cells[3][0] = new BuildingCell('up')
+cells[3][0] = new DiamondCell('up')
 cells[2][0] = new BuildingCell('up')
 cells[1][0] = new BuildingCell('up')
 

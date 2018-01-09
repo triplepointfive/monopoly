@@ -1,7 +1,7 @@
 <template lang='slm'>
   td.corner :class='image'
-    span.player v-for='player in playersIds' :class='"id" + player'
     | {{ text }}
+    span.player v-for='player in playersIds' :class='"id" + player'
 </template>
 
 <script>
@@ -50,6 +50,14 @@ td {
 
   &.salary {
     background-image: url(/salary.png);
+  }
+
+  &.diamond {
+    background-image: url(/diamond.jpg);
+  }
+
+  &.chance {
+    background-image: url(/chance.png);
   }
 
   img {
