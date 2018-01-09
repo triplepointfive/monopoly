@@ -1,10 +1,16 @@
 <template lang="slm">
-  span.dice.dice-3
+  span.dice :class="diceClass"
 </template>
 
 <script>
 export default {
-  name: 'Dice'
+  name: 'Dice',
+  props: ['value'],
+  computed: {
+    diceClass() {
+      return `dice-${this.value}`
+    }
+  }
 }
 </script>
 
