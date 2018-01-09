@@ -1,8 +1,56 @@
 <template lang="slm">
-  h1
-    Dice> v-for='(dice, i) in dices' :value='dice' :key="i"
-    button @click="roll"
-      | Role
+  div
+    table
+      tr
+        td
+          img src='parking.png'
+        td
+        td
+        td
+        td
+        td
+        td
+        td
+        td
+          img src='police.svg'
+      tr
+        td
+        td colspan=7 rowspan=7
+        td
+      tr
+        td
+        td
+      tr
+        td
+        td
+      tr
+        td
+        td
+      tr
+        td
+        td
+      tr
+        td
+        td
+      tr
+        td
+        td
+      tr
+        td
+          img src='jail.png'
+        td
+        td
+        td
+        td
+        td
+        td
+        td
+        td
+          img src='salary.png'
+    h1
+      Dice> v-for='(dice, i) in dices' :value='dice' :key="i"
+      button @click="roll"
+        | Role
 </template>
 
 <script>
@@ -31,3 +79,16 @@ export default {
   }
 }
 </script>
+
+<style>
+td {
+  border: 1px solid black;
+  width: 50px;
+  height: 50px;
+}
+
+td img {
+  max-width: 100%;
+  max-height: 100%;
+}
+</style>
