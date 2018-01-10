@@ -16,19 +16,19 @@ export default {
   border-radius: 10px;
   display: inline-block;
 
-  &.id0 {
+  &.id1 {
     background-color: red;
   }
 
-  &.id1 {
+  &.id2 {
     background-color: green;
   }
 
-  &.id2 {
+  &.id3 {
     background-color: blue;
   }
 
-  &.id3 {
+  &.id4 {
     background-color: purple;
   }
 }

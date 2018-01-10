@@ -25,14 +25,14 @@
           | Role
     div
       table
-        tr v-for='(player, i) in players' :key='i'
+        tr v-for='player in players' :key='player.id'
           td
             span[
               v-show='player == currentPlayer'
               ]
               | ➡
           td
-            DeskPlayer :id='i'
+            DeskPlayer :id='player.id'
           td
             span v-for='n in player.level * 2 - 1'
               | ★
@@ -75,9 +75,22 @@ class BuildingCell extends Cell {
     this.text = text
     this.cost = cost
     this.houses = 0
+    this.owner = null
   }
 
-  
+  onStop(player) {
+    switch(this.owner) {
+    case player:
+      break
+    case null:
+      this.owner = player
+      player.money -= this.cost
+      break
+    default:
+      this.owner.money += this.cost
+      player.money -= this.cost
+    }
+  }
 }
 
 class DiamondCell extends Cell {
@@ -227,7 +240,7 @@ export default {
         if (steps <= 0) {
           clearInterval(stepIterval)
 
-          cell.onStop(this.player)
+          cell.onStop(this.currentPlayer)
 
           const [d1, d2] = this.dices
 
