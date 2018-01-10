@@ -50,10 +50,19 @@ const randomInteger = function (min, max) {
 
 const randDice = function() { return randomInteger(1, 5) }
 
+// TODO: Make an interface
 class Cell {
   constructor(moveDir, image) {
     this.moveDir = moveDir
     this.image = image
+  }
+
+  onStepOver(player) {
+    // Does nothing by default
+  }
+
+  onStop(player) {
+    // Does nothing by default
   }
 }
 
@@ -76,6 +85,34 @@ class ChanceCell extends Cell {
   }
 }
 
+class SalaryCell extends Cell {
+  constructor(moveDir) {
+    super(moveDir, 'salary')
+  }
+
+  onStepOver(player) {
+    switch(player.level) {
+    case 1:
+      player.money += 150
+      break
+    case 2:
+      player.money += 200
+      break
+    case 3:
+      player.money += 250
+      break
+    default:
+      throw(`Unknown player level ${player.level}`)
+    }
+
+    // TODO: Ask if a player would like to upgrade
+    if (Math.random() > 0.5 && player.level < 3) {
+      player.level += 1
+      player.money -= 50
+    }
+  }
+}
+
 class Player {
   constructor() {
     this.i = 8
@@ -88,7 +125,7 @@ class Player {
 const parkingCell = new Cell('right', 'parking')
 const jailCell = new Cell('up', 'jail')
 const policeCell = new Cell('down', 'police')
-const salaryCell = new Cell('left', 'salary')
+const salaryCell = new SalaryCell('left')
 
 let cells = new Array(9);
 for (let i = 0; i < 9; i++) {
@@ -135,7 +172,7 @@ export default {
   name: 'Game',
   data() {
     return {
-      dices: [randDice(), randDice()],
+      dices: [6, 6],
       cells: cells,
       turn: 0,
       players: [new Player(), new Player(), new Player(), new Player()]
@@ -154,9 +191,9 @@ export default {
     movePlayer() {
       let steps = this.dices.reduce((acc, val) => acc + val)
 
-      const stepIterval = setInterval(() => {
-        const cell = this.cells[this.currentPlayer.i][this.currentPlayer.j]
+      let cell = this.cells[this.currentPlayer.i][this.currentPlayer.j]
 
+      const stepIterval = setInterval(() => {
         switch (cell.moveDir) {
           case 'up':
             this.currentPlayer.i -= 1
@@ -174,10 +211,16 @@ export default {
             throw(`Unknown moveDir ${cell.moveDir}`)
         }
 
+        cell = this.cells[this.currentPlayer.i][this.currentPlayer.j]
+
+        console.log(this.currentPlayer.i, this.currentPlayer.j)
+
         steps -= 1
 
         if (steps <= 0) {
           clearInterval(stepIterval)
+
+          cell.onStop(this.player)
 
           const [d1, d2] = this.dices
 
@@ -185,8 +228,9 @@ export default {
             // TODO: If dices are same for the third time go to jail
             this.turn += 1
           }
+        } else {
+          cell.onStepOver(this.currentPlayer)
         }
-
       }, 100)
     }
   },
