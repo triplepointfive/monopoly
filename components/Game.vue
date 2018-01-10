@@ -11,6 +11,7 @@
               :players='players'
               :image='cell.image'
               :text='cell.text'
+              :set-id='cell.setId'
               ]
             td[
               rowspan=7
@@ -126,7 +127,7 @@ class Player {
 const parkingCell = new Cell('right', '/parking.png')
 const jailCell = new Cell('up', '/jail.png')
 const policeCell = new Cell('down', '/police.svg')
-const salaryCell = new SalaryCell('/left.png')
+const salaryCell = new SalaryCell('left')
 
 let cells = new Array(9);
 for (let i = 0; i < 9; i++) {
