@@ -57,15 +57,6 @@ export default {
   background-size: 100% 100%;
 }
 
-.desk {
-  td {
-    border: 1px solid black;
-    width: 100px;
-    height: 100px;
-    position: relative;
-  }
-}
-
 .building-card {
   height: 100%;
   width: 100%;

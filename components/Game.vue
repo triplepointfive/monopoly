@@ -1,44 +1,52 @@
 <template lang="slm">
   div
-    div style='float: left;'
-      table.desk
-        tr v-for='(row, i) in cells'
-          template v-for='(cell, j) in row'
-            DeskCell[
-              v-if='cell'
-              :i='i'
-              :j='j'
-              :players='players'
-              :image='cell.image'
-              :text='cell.text'
-              :set-id='cell.setId'
-              :cost='cell.cost'
-              ]
-            td[
-              rowspan=7
-              colspan=7
-              v-else-if='i == 1 && j == 1'
-              ]
-      h1
-        Dice> v-for='(dice, i) in dices' :value='dice' :key="i"
-        button @click="roll"
-          | Role
-    div
-      table
-        tr v-for='player in players' :key='player.id'
-          td
-            span[
-              v-show='player == currentPlayer'
-              ]
-              | ➡
-          td
-            DeskPlayer :id='player.id'
-          td
-            span v-for='n in player.level * 2 - 1'
-              | ★
-          td
-            | {{ player.money }}K$
-
+    table.desk
+      tr v-for='(row, i) in cells'
+        template v-for='(cell, j) in row'
+          DeskCell.cell[
+            v-if='cell'
+            :i='i'
+            :j='j'
+            :players='players'
+            :image='cell.image'
+            :text='cell.text'
+            :set-id='cell.setId'
+            :cost='cell.cost'
+            ]
+          td[
+            rowspan=7
+            colspan=7
+            v-else-if='i == 1 && j == 1'
+            ]
+            table
+              tr
+                td v-for='player in players' :key='player.id'
+                  span[
+                    v-show='player == currentPlayer'
+                    ]
+                    | ↓
+              tr
+                td v-for='player in players' :key='player.id'
+                  DeskPlayer :id='player.id'
+              tr
+                td v-for='player in players' :key='player.id'
+                  span v-for='n in player.level * 2 - 1'
+                    | ★
+              tr
+                td v-for='player in players' :key='player.id'
+                  | {{ player.money }}K$
+              tr[
+                v-for='setId in [1,2,3,4,5,6,7,8]'
+                ]
+                td v-for='player in players' :key='player.id'
+                  div[
+                    v-for='building in player.own.filter(b => b.setId == setId)'
+                    ]
+                    | {{ building.text }}
+    h1
+      Dice> v-for='(dice, i) in dices' :value='dice' :key="i"
+      button @click="roll"
+        | Role
 </template>
 
 <script>
@@ -85,6 +93,7 @@ class BuildingCell extends Cell {
     case null:
       this.owner = player
       player.money -= this.cost
+      player.own.push(this)
       break
     default:
       this.owner.money += this.cost
@@ -140,6 +149,7 @@ class Player {
     this.money = 372
     this.level = 1
     this.id = id
+    this.own = []
   }
 }
 
@@ -249,7 +259,7 @@ export default {
             this.turn += 1
           }
         }
-      }, 100)
+      }, 10)
     }
   },
   computed: {
@@ -261,4 +271,12 @@ export default {
 </script>
 
 <style lang="scss">
+.desk {
+  .cell {
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+    position: relative;
+  }
+}
 </style>
