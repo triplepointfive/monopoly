@@ -67,27 +67,28 @@ class Cell {
 }
 
 class BuildingCell extends Cell {
-  constructor(moveDir) {
-    super(moveDir, null)
-    this.text = 'home'
+  constructor(moveDir, setId, image, text) {
+    super(moveDir, image)
+    this.setId = setId
+    this.text = text
   }
 }
 
 class DiamondCell extends Cell {
   constructor(moveDir) {
-    super(moveDir, 'diamond')
+    super(moveDir, '/diamond.jpg')
   }
 }
 
 class ChanceCell extends Cell {
   constructor(moveDir) {
-    super(moveDir, 'chance')
+    super(moveDir, '/chance.png')
   }
 }
 
 class SalaryCell extends Cell {
   constructor(moveDir) {
-    super(moveDir, 'salary')
+    super(moveDir, '/salary.png')
   }
 
   onStepOver(player) {
@@ -122,51 +123,51 @@ class Player {
   }
 }
 
-const parkingCell = new Cell('right', 'parking')
-const jailCell = new Cell('up', 'jail')
-const policeCell = new Cell('down', 'police')
-const salaryCell = new SalaryCell('left')
+const parkingCell = new Cell('right', '/parking.png')
+const jailCell = new Cell('up', '/jail.png')
+const policeCell = new Cell('down', '/police.svg')
+const salaryCell = new SalaryCell('/left.png')
 
 let cells = new Array(9);
 for (let i = 0; i < 9; i++) {
   cells[i] = new Array(9);
 }
 
-cells[0][0] = parkingCell
-cells[0][1] = new BuildingCell('right')
-cells[0][2] = new ChanceCell('right')
-cells[0][3] = new BuildingCell('right')
-cells[0][4] = new BuildingCell('right')
-cells[0][5] = new BuildingCell('right')
-cells[0][6] = new BuildingCell('right')
-cells[0][7] = new BuildingCell('right')
-
-cells[0][8] = policeCell
-cells[1][8] = new BuildingCell('down')
-cells[2][8] = new BuildingCell('down')
-cells[3][8] = new DiamondCell('down')
-cells[4][8] = new BuildingCell('down')
-cells[5][8] = new ChanceCell('down')
-cells[6][8] = new BuildingCell('down')
-cells[7][8] = new BuildingCell('down')
-
 cells[8][8] = salaryCell
-cells[8][7] = new BuildingCell('left')
+cells[8][7] = new BuildingCell('left', 1, '/buildings/DogHouse.png', 'Конура')
 cells[8][6] = new DiamondCell('left')
-cells[8][5] = new BuildingCell('left')
-cells[8][4] = new BuildingCell('left')
+cells[8][5] = new BuildingCell('left', 1, '/buildings/TreeHouse.png', 'Дом на дереве')
+cells[8][4] = new BuildingCell('left', 2, '/buildings/Igloo.png', 'Иглу')
 cells[8][3] = new ChanceCell('left')
-cells[8][2] = new BuildingCell('left')
-cells[8][1] = new BuildingCell('left')
+cells[8][2] = new BuildingCell('left', 2, '/buildings/Hut.png', 'Палатка')
+cells[8][1] = new BuildingCell('left', 2, '/buildings/Shed.png', 'Сарай')
 
 cells[8][0] = jailCell
-cells[7][0] = new BuildingCell('up')
-cells[6][0] = new BuildingCell('up')
-cells[5][0] = new BuildingCell('up')
-cells[4][0] = new BuildingCell('up')
+cells[7][0] = new BuildingCell('up', 3, '/buildings/Museum.png', 'Музей')
+cells[6][0] = new BuildingCell('up', 3, '/buildings/LightHouse.png', 'Маяк')
+cells[5][0] = new BuildingCell('up', 3, '/buildings/School.png', 'Школа')
+cells[4][0] = new BuildingCell('up', 4, '/buildings/Shop.png', 'Магазин')
 cells[3][0] = new DiamondCell('up')
-cells[2][0] = new BuildingCell('up')
-cells[1][0] = new BuildingCell('up')
+cells[2][0] = new BuildingCell('up', 4, '/buildings/CityHall.png', 'Ратуша')
+cells[1][0] = new BuildingCell('up', 4, '/buildings/PostOffice.png', 'Почта')
+
+cells[0][0] = parkingCell
+cells[0][1] = new BuildingCell('right', 5, '/buildings/Embassy.png', 'Посольство')
+cells[0][2] = new ChanceCell('right')
+cells[0][3] = new BuildingCell('right', 5, '/buildings/Temple.png', 'Храм')
+cells[0][4] = new BuildingCell('right', 5, '/buildings/Church.png', 'Церковь')
+cells[0][5] = new BuildingCell('right', 6, '/buildings/Hospital.png', 'Больница')
+cells[0][6] = new BuildingCell('right', 6, '/buildings/OfficeBuilding.png', 'Офис')
+cells[0][7] = new BuildingCell('right', 6, '/buildings/Tower.png', 'Башня')
+
+cells[0][8] = policeCell
+cells[1][8] = new BuildingCell('down', 7, '/buildings/Factory.png', 'Фабрика')
+cells[2][8] = new BuildingCell('down', 7, '/buildings/Pyramid.png', 'Пирамида')
+cells[3][8] = new DiamondCell('down')
+cells[4][8] = new BuildingCell('down', 7, '/buildings/Castle.png', 'Замок')
+cells[5][8] = new ChanceCell('down')
+cells[6][8] = new BuildingCell('down', 8, '/buildings/Stadium.png', 'Стадион')
+cells[7][8] = new BuildingCell('down', 8, '/buildings/Skyscraper.png', 'Небоскрёб')
 
 export default {
   name: 'Game',

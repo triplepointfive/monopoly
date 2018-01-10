@@ -1,6 +1,5 @@
 <template lang='slm'>
-  td.corner :class='image'
-    | {{ text }}
+  td :style='backgroundStyle'
     Player v-for='playerId in playersIds' :id='playerId' :key='playerId'
 </template>
 
@@ -24,6 +23,9 @@ export default {
       })
 
       return ids
+    },
+    backgroundStyle() {
+      return `background-image: url(${this.image})`
     }
   }
 }
@@ -36,39 +38,8 @@ export default {
     width: 50px;
     height: 50px;
 
-    &.corner {
-      background-position: center center;
-      background-size: 100% 100%;
-    }
-
-    &.parking {
-      background-image: url(/parking.png);
-    }
-
-    &.police {
-      background-image: url(/police.svg);
-    }
-
-    &.jail {
-      background-image: url(/jail.png);
-    }
-
-    &.salary {
-      background-image: url(/salary.png);
-    }
-
-    &.diamond {
-      background-image: url(/diamond.jpg);
-    }
-
-    &.chance {
-      background-image: url(/chance.png);
-    }
-
-    img {
-      max-width: 100%;
-      max-height: 100%;
-    }
+    background-position: center center;
+    background-size: 100% 100%;
   }
 }
 </style>
