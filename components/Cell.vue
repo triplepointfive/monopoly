@@ -10,7 +10,7 @@
         .image
           img :src='image'
         .price
-          | {{ text }}
+          | {{ cost }}K$
     Player v-for='playerId in playersIds' :id='playerId' :key='playerId'
 
   td.corner.image[
@@ -25,7 +25,7 @@ import Player from './Player'
 
 export default {
   name: 'Cell',
-  props: ['i', 'j', 'players', 'image', 'text', 'setId'],
+  props: ['i', 'j', 'players', 'image', 'text', 'setId', 'cost'],
   components: {
     Player
   },
@@ -33,9 +33,9 @@ export default {
     playersIds() {
       let ids = []
 
-      this.players.forEach((player, index) => {
+      this.players.forEach(player => {
         if (this.i == player.i && this.j == player.j) {
-          ids.push(index)
+          ids.push(player.id)
         }
       })
 
