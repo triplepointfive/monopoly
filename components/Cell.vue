@@ -57,6 +57,31 @@ export default {
   background-size: 100% 100%;
 }
 
+.-set1 {
+  background-color: #DF3FEE;
+}
+.-set2 {
+  background-color: #7F211B;
+}
+.-set3 {
+  background-color: #C70C13;
+}
+.-set4 {
+  background-color: #D7E60C;
+}
+.-set5 {
+  background-color: #181798;
+}
+.-set6 {
+  background-color: #F8A9FC;
+}
+.-set7 {
+  background-color: #35EBD4;
+}
+.-set8 {
+  background-color: #31FA1D;
+}
+
 .building-card {
   height: 100%;
   width: 100%;
@@ -66,31 +91,6 @@ export default {
 
   > .header {
     height: 10px;
-
-    &.-set1 {
-      background-color: #DF3FEE;
-    }
-    &.-set2 {
-      background-color: #7F211B;
-    }
-    &.-set3 {
-      background-color: #C70C13;
-    }
-    &.-set4 {
-      background-color: #D7E60C;
-    }
-    &.-set5 {
-      background-color: #181798;
-    }
-    &.-set6 {
-      background-color: #F8A9FC;
-    }
-    &.-set7 {
-      background-color: #35EBD4;
-    }
-    &.-set8 {
-      background-color: #31FA1D;
-    }
   }
 
   > .body {

@@ -1,52 +1,57 @@
 <template lang="slm">
-  div
-    table.desk
-      tr v-for='(row, i) in cells'
-        template v-for='(cell, j) in row'
-          DeskCell.cell[
-            v-if='cell'
-            :i='i'
-            :j='j'
-            :players='players'
-            :image='cell.image'
-            :text='cell.text'
-            :set-id='cell.setId'
-            :cost='cell.cost'
-            ]
-          td[
-            rowspan=7
-            colspan=7
-            v-else-if='i == 1 && j == 1'
-            ]
-            table
+  table.desk
+    tr v-for='(row, i) in cells'
+      template v-for='(cell, j) in row'
+        DeskCell.cell[
+          v-if='cell'
+          :i='i'
+          :j='j'
+          :players='players'
+          :image='cell.image'
+          :text='cell.text'
+          :set-id='cell.setId'
+          :cost='cell.cost'
+          ]
+        td.inner[
+          rowspan=7
+          colspan=7
+          v-else-if='i == 1 && j == 1'
+          ]
+          .active-zone
+            table.players-info
               tr
-                td v-for='player in players' :key='player.id'
+                th
+                th v-for='player in players' :key='player.id'
                   span[
                     v-show='player == currentPlayer'
                     ]
                     | ↓
               tr
-                td v-for='player in players' :key='player.id'
+                th
+                th v-for='player in players' :key='player.id'
                   DeskPlayer :id='player.id'
               tr
-                td v-for='player in players' :key='player.id'
+                th
+                th v-for='player in players' :key='player.id'
                   span v-for='n in player.level * 2 - 1'
                     | ★
               tr
+                td
                 td v-for='player in players' :key='player.id'
                   | {{ player.money }}K$
-              tr[
+              tr.own[
                 v-for='setId in [1,2,3,4,5,6,7,8]'
                 ]
+                td :class='"-set" + setId' style='width: 10px;'
                 td v-for='player in players' :key='player.id'
                   div[
                     v-for='building in player.own.filter(b => b.setId == setId)'
                     ]
                     | {{ building.text }}
-    h1
-      Dice> v-for='(dice, i) in dices' :value='dice' :key="i"
-      button @click="roll"
-        | Role
+            .actions
+              Dice.dices> v-for='(dice, i) in dices' :value='dice' :key="i"
+              button @click="roll"
+                | Role
 </template>
 
 <script>
@@ -104,19 +109,19 @@ class BuildingCell extends Cell {
 
 class DiamondCell extends Cell {
   constructor(moveDir) {
-    super(moveDir, '/diamond.jpg')
+    super(moveDir, 'diamond.jpg')
   }
 }
 
 class ChanceCell extends Cell {
   constructor(moveDir) {
-    super(moveDir, '/chance.png')
+    super(moveDir, 'chance.png')
   }
 }
 
 class SalaryCell extends Cell {
   constructor(moveDir) {
-    super(moveDir, '/salary.png')
+    super(moveDir, 'salary.png')
   }
 
   onStepOver(player) {
@@ -153,9 +158,9 @@ class Player {
   }
 }
 
-const parkingCell = new Cell('right', '/parking.png')
-const jailCell = new Cell('up', '/jail.png')
-const policeCell = new Cell('down', '/police.svg')
+const parkingCell = new Cell('right', 'parking.png')
+const jailCell = new Cell('up', 'jail.png')
+const policeCell = new Cell('down', 'police.svg')
 const salaryCell = new SalaryCell('left')
 
 let cells = new Array(9);
@@ -164,40 +169,40 @@ for (let i = 0; i < 9; i++) {
 }
 
 cells[8][8] = salaryCell
-cells[8][7] = new BuildingCell('left', 1, '/buildings/DogHouse.png', 'Конура', 5)
+cells[8][7] = new BuildingCell('left', 1, 'buildings/DogHouse.png', 'Конура', 5)
 cells[8][6] = new DiamondCell('left')
-cells[8][5] = new BuildingCell('left', 1, '/buildings/TreeHouse.png', 'Дом на дереве', 5)
-cells[8][4] = new BuildingCell('left', 2, '/buildings/Igloo.png', 'Иглу', 15)
+cells[8][5] = new BuildingCell('left', 1, 'buildings/TreeHouse.png', 'Дом на дереве', 5)
+cells[8][4] = new BuildingCell('left', 2, 'buildings/Igloo.png', 'Иглу', 15)
 cells[8][3] = new ChanceCell('left')
-cells[8][2] = new BuildingCell('left', 2, '/buildings/Hut.png', 'Палатка', 15)
-cells[8][1] = new BuildingCell('left', 2, '/buildings/Shed.png', 'Сарай', 20)
+cells[8][2] = new BuildingCell('left', 2, 'buildings/Hut.png', 'Палатка', 15)
+cells[8][1] = new BuildingCell('left', 2, 'buildings/Shed.png', 'Сарай', 20)
 
 cells[8][0] = jailCell
-cells[7][0] = new BuildingCell('up', 3, '/buildings/Museum.png', 'Музей', 35)
-cells[6][0] = new BuildingCell('up', 3, '/buildings/LightHouse.png', 'Маяк', 35)
-cells[5][0] = new BuildingCell('up', 3, '/buildings/School.png', 'Школа', 40)
-cells[4][0] = new BuildingCell('up', 4, '/buildings/Shop.png', 'Магазин', 55)
+cells[7][0] = new BuildingCell('up', 3, 'buildings/Museum.png', 'Музей', 35)
+cells[6][0] = new BuildingCell('up', 3, 'buildings/LightHouse.png', 'Маяк', 35)
+cells[5][0] = new BuildingCell('up', 3, 'buildings/School.png', 'Школа', 40)
+cells[4][0] = new BuildingCell('up', 4, 'buildings/Shop.png', 'Магазин', 55)
 cells[3][0] = new DiamondCell('up')
-cells[2][0] = new BuildingCell('up', 4, '/buildings/CityHall.png', 'Ратуша', 55)
-cells[1][0] = new BuildingCell('up', 4, '/buildings/PostOffice.png', 'Почта', 60)
+cells[2][0] = new BuildingCell('up', 4, 'buildings/CityHall.png', 'Ратуша', 55)
+cells[1][0] = new BuildingCell('up', 4, 'buildings/PostOffice.png', 'Почта', 60)
 
 cells[0][0] = parkingCell
-cells[0][1] = new BuildingCell('right', 5, '/buildings/Embassy.png', 'Посольство', 80)
+cells[0][1] = new BuildingCell('right', 5, 'buildings/Embassy.png', 'Посольство', 80)
 cells[0][2] = new ChanceCell('right')
-cells[0][3] = new BuildingCell('right', 5, '/buildings/Temple.png', 'Храм', 80)
-cells[0][4] = new BuildingCell('right', 5, '/buildings/Church.png', 'Церковь', 90)
-cells[0][5] = new BuildingCell('right', 6, '/buildings/Hospital.png', 'Больница', 115)
-cells[0][6] = new BuildingCell('right', 6, '/buildings/OfficeBuilding.png', 'Офис', 115)
-cells[0][7] = new BuildingCell('right', 6, '/buildings/Tower.png', 'Башня', 120)
+cells[0][3] = new BuildingCell('right', 5, 'buildings/Temple.png', 'Храм', 80)
+cells[0][4] = new BuildingCell('right', 5, 'buildings/Church.png', 'Церковь', 90)
+cells[0][5] = new BuildingCell('right', 6, 'buildings/Hospital.png', 'Больница', 115)
+cells[0][6] = new BuildingCell('right', 6, 'buildings/OfficeBuilding.png', 'Офис', 115)
+cells[0][7] = new BuildingCell('right', 6, 'buildings/Tower.png', 'Башня', 120)
 
 cells[0][8] = policeCell
-cells[1][8] = new BuildingCell('down', 7, '/buildings/Factory.png', 'Фабрика', 145)
-cells[2][8] = new BuildingCell('down', 7, '/buildings/Pyramid.png', 'Пирамида', 145)
+cells[1][8] = new BuildingCell('down', 7, 'buildings/Factory.png', 'Фабрика', 145)
+cells[2][8] = new BuildingCell('down', 7, 'buildings/Pyramid.png', 'Пирамида', 145)
 cells[3][8] = new DiamondCell('down')
-cells[4][8] = new BuildingCell('down', 7, '/buildings/Castle.png', 'Замок', 150)
+cells[4][8] = new BuildingCell('down', 7, 'buildings/Castle.png', 'Замок', 150)
 cells[5][8] = new ChanceCell('down')
-cells[6][8] = new BuildingCell('down', 8, '/buildings/Stadium.png', 'Стадион', 170)
-cells[7][8] = new BuildingCell('down', 8, '/buildings/Skyscraper.png', 'Небоскрёб', 200)
+cells[6][8] = new BuildingCell('down', 8, 'buildings/Stadium.png', 'Стадион', 170)
+cells[7][8] = new BuildingCell('down', 8, 'buildings/Skyscraper.png', 'Небоскрёб', 200)
 
 export default {
   name: 'Game',
@@ -277,6 +282,42 @@ export default {
     width: 100px;
     height: 100px;
     position: relative;
+  }
+}
+
+td.inner {
+  position: relative;
+
+  .active-zone {
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    .players-info {
+      float: left;
+      border-collapse: collapse;
+      width: 50%;
+
+      td {
+        border: solid black 1px;
+      }
+
+      tr.own {
+        padding: 0;
+
+        > td {
+          padding: 0;
+        }
+      }
+    }
+
+    .actions {
+      display: inline;
+
+      .dices {
+        font-size: 32px;
+      }
+    }
   }
 }
 </style>

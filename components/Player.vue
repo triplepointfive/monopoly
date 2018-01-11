@@ -13,6 +13,7 @@ export default {
 .player {
   width: 20px;
   height: 20px;
+  border: solid black 3px;
   border-radius: 10px;
   display: inline-block;
 
